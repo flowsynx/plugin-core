@@ -1,4 +1,6 @@
-﻿namespace FlowSynx.PluginCore.UnitTests;
+﻿using Moq;
+
+namespace FlowSynx.PluginCore.UnitTests;
 
 public class PluginTests
 {
@@ -7,12 +9,13 @@ public class PluginTests
     {
         // Arrange
         var plugin = new FakePlugin();
+        var loggerMock = new Mock<IPluginLogger>();
 
         // Act
-        await plugin.Initialize();
+        await plugin.Initialize(loggerMock.Object);
 
         // Assert
-        Assert.True(plugin.Initialized);
+        loggerMock.Verify(l => l.Log(PluginLoggerLevel.Information, "Initializing SamplePlugin"), Times.Once);
     }
 
     [Fact]
@@ -88,8 +91,6 @@ public class FakePlugin : IPlugin
     public PluginSpecifications? Specifications { get; set; }
     public Type SpecificationsType => typeof(FakeSpecifications);
 
-    public bool Initialized { get; private set; }
-
     public FakePlugin()
     {
         Metadata = new PluginMetadata
@@ -102,9 +103,9 @@ public class FakePlugin : IPlugin
         };
     }
 
-    public Task Initialize()
+    public Task Initialize(IPluginLogger logger)
     {
-        Initialized = true;
+        logger.Log(PluginLoggerLevel.Information, "Initializing SamplePlugin");
         return Task.CompletedTask;
     }
 
