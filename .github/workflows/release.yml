@@ -1,0 +1,71 @@
+name: Build, create, and release a nuget package
+
+on:      
+  workflow_dispatch:
+    inputs:
+      rel_version:
+        description: 'Release version (examples: 1.9.0-rc.1, 1.9.1)'
+        required: true 
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest    
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 #fetch-depth is needed for GitVersion
+
+    - name: Create Branch
+      uses: peterjgrainger/action-create-branch@v2.2.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      with:
+        branch: 'release-${{ inputs.rel_version }}'
+        sha: '${{ github.event.pull_request.head.sha }}'
+
+    #Build/pack the project
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3.2.0
+      with:
+        dotnet-version: 9.0.x
+
+    - name: Build
+      run: dotnet build --configuration Release /p:Version='${{ inputs.rel_version }}'
+
+    - name: Test
+      run: dotnet test --configuration Release /p:Version='${{ inputs.rel_version }}' --no-build
+
+    - name: Create the package
+      run: dotnet pack --configuration Release /p:Version='${{ inputs.rel_version }}' --no-build
+
+    - name: Upload NuGet package to nuget.org
+      uses: actions/upload-artifact@v4
+      with:
+        name: nugetPackage
+        path: src/ 
+        
+  release:
+    runs-on: ubuntu-latest    
+    needs: build
+    if: github.ref == 'refs/heads/master' # only run job if on the master branch   
+    
+    steps:  
+    #Push NuGet package to GitHub packages
+    - name: Download nuget package artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: nugetPackage
+
+    - name: Push package to GitHub packages 
+      run: dotnet nuget push **/*.nupkg --api-key ${{secrets.NUGET_TOKEN}} --source https://api.nuget.org/v3/index.json
+
+    #Create release
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{inputs.rel_version}}
+        name: v${{inputs.rel_version}}
+        body: "This is the v${{inputs.rel_version}} release of FlowSynx PluginCore"
+        token: ${{secrets.GH_TOKEN}}
