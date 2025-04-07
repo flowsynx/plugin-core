@@ -26,7 +26,7 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <None Update="Resources\flowsynx.png">
+    <None Update="flowsynx.png">
 		<Pack>True</Pack>
 		<PackagePath>\</PackagePath>
     </None>
