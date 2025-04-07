@@ -47,7 +47,7 @@ public class PluginVersion
     }
 
     // Overriding Equals and GetHashCode for correct comparison
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is PluginVersion version && CompareTo(version) == 0;
     }

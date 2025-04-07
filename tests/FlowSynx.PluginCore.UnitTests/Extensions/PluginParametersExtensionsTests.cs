@@ -9,8 +9,8 @@ public class PluginParametersExtensionsTests
     {
         public string Name { get; set; }
         public int Age { get; set; }
-        public List<string> Tags { get; set; }
-        public Dictionary<string, object> MetaData { get; set; }
+        public List<string>? Tags { get; set; }
+        public Dictionary<string, object>? MetaData { get; set; }
     }
 
     [Fact]

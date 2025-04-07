@@ -34,9 +34,9 @@ public class PluginContext: IEquatable<PluginContext>, ICloneable
         return false;
     }
 
-    public void TryAddMetadata(string key, object? value)
+    public void TryAddMetadata(string? key, object? value)
     {
-        if (key != null && value != null)
+        if (!string.IsNullOrEmpty(key) && value != null)
         {
             Metadata.TryAdd(key, value);
         }
