@@ -4,10 +4,32 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<Description>This package contains the reference assemblies for developing pluginin for FlowSynx system.</Description>
+	<Company>FlowSynx</Company>
+	<Authors>FlowSynx</Authors>
+	<Copyright>© FlowSynx. All rights reserved.</Copyright>
+	<RepositoryUrl>https://github.com/flowsynx/plugin-core</RepositoryUrl>
+	<PackageProjectUrl>https://flowsynx.io</PackageProjectUrl>
+	<PackageTags>FlowSynx</PackageTags>
+	<PackageIcon>flowsynx.png</PackageIcon>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+	<DebugSymbols>False</DebugSymbols>
+	<DebugType>None</DebugType>
+  </PropertyGroup>
+	
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <None Update="Resources\flowsynx.png">
+		<Pack>True</Pack>
+		<PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
