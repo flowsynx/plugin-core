@@ -6,7 +6,7 @@ public class PluginSpecificationsExtensionsTests
 {
     public class TestClass
     {
-        public string Property1 { get; set; }
+        public string? Property1 { get; set; }
         public int Property2 { get; set; }
     }
 

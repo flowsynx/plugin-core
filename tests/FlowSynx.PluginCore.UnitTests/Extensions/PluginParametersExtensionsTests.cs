@@ -7,7 +7,7 @@ public class PluginParametersExtensionsTests
 {
     private class TestClass
     {
-        public string Name { get; set; }
+        public string? Name { get; set; } = null;
         public int Age { get; set; }
         public List<string>? Tags { get; set; }
         public Dictionary<string, object>? MetaData { get; set; }
