@@ -18,7 +18,7 @@ public class PluginMetadataTests
         var type = metadata.Type;
 
         // Assert
-        Assert.Equal("FlowSynx.Connectors/MyPlugin", type);
+        Assert.Equal("FlowSynx.Connectors.MyPlugin", type);
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public class PluginMetadataTests
         Assert.Equal("DevTeam", metadata.Author);
         Assert.Equal("https://registry.flowsynx.io/AnalyticsPlugin/", metadata.Url);
         Assert.Equal(ns, metadata.Namespace);
-        Assert.Equal("FlowSynx.Connectors/AnalyticsPlugin", metadata.Type);
+        Assert.Equal("FlowSynx.Connectors.AnalyticsPlugin", metadata.Type);
     }
 
     [Fact]
@@ -67,6 +67,6 @@ public class PluginMetadataTests
         var type = metadata.Type;
 
         // Assert
-        Assert.Equal("FlowSynx.Transformers/Processor", type);
+        Assert.Equal("FlowSynx.Transformers.Processor", type);
     }
 }

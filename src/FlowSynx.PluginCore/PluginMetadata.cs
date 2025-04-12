@@ -11,5 +11,5 @@ public class PluginMetadata
     public string? Author { get; set; }
     public string? Url { get; set; }
     public required PluginNamespace Namespace { get; set; }
-    public string Type => $"{PrefixTypeName}.{Namespace}/{Name}";
+    public string Type => $"{PrefixTypeName}.{Namespace}.{Name}";
 }
