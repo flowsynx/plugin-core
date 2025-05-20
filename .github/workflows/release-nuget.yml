@@ -1,0 +1,67 @@
+name: release-nuget
+
+on:
+  workflow_dispatch:
+    inputs:
+      rel_version:
+        description: 'Release version (e.g., 1.9.0-rc.1, 1.9.1)'
+        required: true
+        type: string
+
+env:
+  DOTNET_VERSION: '9.0.x'
+  PACKAGE_OUTPUT_PATH: src/
+  BRANCH_NAME: release-${{ inputs.rel_version }}
+  PACKAGE_VERSION: ${{ inputs.rel_version }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Needed for GitVersion or full history
+
+      - name: Create release branch
+        uses: peterjgrainger/action-create-branch@v2.2.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          branch: ${{ env.BRANCH_NAME }}
+          sha: ${{ github.sha }}
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3.2.0
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Build project
+        run: dotnet build --configuration Release /p:Version=${{ env.PACKAGE_VERSION }}
+
+      - name: Run tests
+        run: dotnet test --configuration Release /p:Version=${{ env.PACKAGE_VERSION }} --no-build
+
+      - name: Create NuGet package
+        run: dotnet pack --configuration Release /p:Version=${{ env.PACKAGE_VERSION }} --no-build
+
+      - name: Upload NuGet package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nugetPackage
+          path: ${{ env.PACKAGE_OUTPUT_PATH }}
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Download NuGet package artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: nugetPackage
+
+      - name: Push package to NuGet.org
+        run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
