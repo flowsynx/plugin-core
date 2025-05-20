@@ -1,4 +1,4 @@
-name: Build, Create, and Release a NuGet Package
+name: Release the nuget Package
 
 on:
   workflow_dispatch:
