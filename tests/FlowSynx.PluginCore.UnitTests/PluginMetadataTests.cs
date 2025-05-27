@@ -11,14 +11,15 @@ public class PluginMetadataTests
             Id = Guid.NewGuid(),
             Name = "MyPlugin",
             Version = new PluginVersion(1, 0, 0),
-            Namespace = PluginNamespace.Connectors
+            Namespace = PluginNamespace.Connectors,
+            CompanyName = "Test",
         };
 
         // Act
         var type = metadata.Type;
 
         // Assert
-        Assert.Equal("FlowSynx.Connectors.MyPlugin", type);
+        Assert.Equal("Test.Connectors.MyPlugin", type);
     }
 
     [Fact]
@@ -35,9 +36,10 @@ public class PluginMetadataTests
             Name = "AnalyticsPlugin",
             Version = version,
             Description = "Performs analytics",
-            Author = "DevTeam",
-            Url = "https://registry.flowsynx.io/AnalyticsPlugin/",
-            Namespace = ns
+            Authors = new List<string> { "DevTeam" },
+            ProjectUrl = "https://registry.flowsynx.io/AnalyticsPlugin/",
+            Namespace = ns,
+            CompanyName= "Test",
         };
 
         // Assert
@@ -45,10 +47,10 @@ public class PluginMetadataTests
         Assert.Equal("AnalyticsPlugin", metadata.Name);
         Assert.Equal(version, metadata.Version);
         Assert.Equal("Performs analytics", metadata.Description);
-        Assert.Equal("DevTeam", metadata.Author);
-        Assert.Equal("https://registry.flowsynx.io/AnalyticsPlugin/", metadata.Url);
+        Assert.Equal("DevTeam", metadata.Authors[0]);
+        Assert.Equal("https://registry.flowsynx.io/AnalyticsPlugin/", metadata.ProjectUrl);
         Assert.Equal(ns, metadata.Namespace);
-        Assert.Equal("FlowSynx.Connectors.AnalyticsPlugin", metadata.Type);
+        Assert.Equal("Test.Connectors.AnalyticsPlugin", metadata.Type);
     }
 
     [Fact]
@@ -60,13 +62,14 @@ public class PluginMetadataTests
             Id = Guid.NewGuid(),
             Name = "Processor",
             Version = new PluginVersion(0, 1, 1),
-            Namespace = PluginNamespace.Transformers
+            Namespace = PluginNamespace.Transformers,
+            CompanyName = "Test",
         };
 
         // Act
         var type = metadata.Type;
 
         // Assert
-        Assert.Equal("FlowSynx.Transformers.Processor", type);
+        Assert.Equal("Test.Transformers.Processor", type);
     }
 }
