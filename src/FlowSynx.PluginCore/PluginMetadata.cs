@@ -16,7 +16,7 @@ public class PluginMetadata
     /// A regular expression to validate identifiers.
     /// Identifiers must start with a letter and contain only letters and digits.
     /// </summary>
-    private static readonly Regex ValidIdentifierRegex = new(@"^[A-Za-z][A-Za-z0-9]*$", RegexOptions.Compiled);
+    private static readonly Regex ValidIdentifierRegex = new(@"^[A-Za-z][A-Za-z0-9.]*$", RegexOptions.Compiled);
 
     /// <summary>
     /// Gets or sets the unique identifier of the plugin.
