@@ -117,7 +117,18 @@ public enum PluginNamespace
 ```csharp
 public class SampleGreetingPlugin : IPlugin
 {
-    public PluginMetadata Metadata => new("GreetingPlugin", "Returns a greeting message.");
+    public PluginMetadata Metadata => new()
+    {
+        Id = Guid.Parse("fc58122d-6444-4c5b-ab3d-8cff62283a08"),
+        Name = "MyPlugin",
+        Description = "This is a test plugin.",
+        Version = new PluginVersion(1, 0, 0),
+        Namespace = PluginNamespace.Connectors,
+        CompanyName = "FlowSynx",
+        Authors = new List<string> { "FlowSynx" },
+        Copyright = "© FlowSynx. All rights reserved.",
+        Tags = new List<string>() { "MyCompany", "TestPlugin" }
+    };
 
     public PluginSpecifications? Specifications { get; set; }
 
