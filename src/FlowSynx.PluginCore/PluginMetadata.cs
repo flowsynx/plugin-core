@@ -94,6 +94,12 @@ public class PluginMetadata
     /// </summary>
     public string? RepositoryUrl { get; set; }
 
+
+    /// <summary>
+    /// Gets or sets the Readme file path to the plugin.
+    /// </summary>
+    public string? ReadMe { get; set; }
+
     /// <summary>
     /// Gets or sets the namespace the plugin belongs to.
     /// Used as the middle component in the plugin's type identifier.
