@@ -90,6 +90,7 @@ public class FakePlugin : IPlugin
     public PluginMetadata Metadata { get; private set; }
     public PluginSpecifications? Specifications { get; set; }
     public Type SpecificationsType => typeof(FakeSpecifications);
+    public IReadOnlyCollection<string> SupportedOperations => new List<string>();
 
     public FakePlugin()
     {

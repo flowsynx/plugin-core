@@ -22,6 +22,14 @@ public interface IPlugin
     Type SpecificationsType { get; }
 
     /// <summary>
+    /// Gets the set of supported operation names.
+    /// </summary>
+    /// <remarks>
+    /// Operation names are case-insensitive and typically represent actions such as "create", "read", "update", or "delete".
+    /// </remarks>
+    IReadOnlyCollection<string> SupportedOperations { get; }
+
+    /// <summary>
     /// Initializes the plugin with the provided logger. This method is called once before execution.
     /// </summary>
     /// <param name="logger">The logger to be used by the plugin for diagnostics and tracing.</param>
