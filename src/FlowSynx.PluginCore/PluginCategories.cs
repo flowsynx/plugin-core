@@ -2,12 +2,12 @@
 
 public static class PluginCategories
 {
-    public static readonly PluginCategory WebApiIntegration = PluginCategory.Create(
+    public static readonly PluginCategory WebApi = PluginCategory.Create(
         id: "web-api",
         title: "Web & API Plugins",
         description: "Plugins for web services and API integrations");
 
-    public static readonly PluginCategory CloudPlatformIntegration = PluginCategory.Create(
+    public static readonly PluginCategory CloudPlatform = PluginCategory.Create(
         id: "cloud",
         title: "Cloud Platform Plugins",
         description: "Plugins for integrating with cloud platforms such as AWS, Azure, GCP");
@@ -17,7 +17,7 @@ public static class PluginCategories
         title: "Enterprise Software & ERP Plugins",
         description: "Plugins for integrating with enterprise and ERP systems");
 
-    public static readonly PluginCategory DataPlatformAndBIIntegration = PluginCategory.Create(
+    public static readonly PluginCategory DataPlatformAndBI = PluginCategory.Create(
         id: "data-platform-bi",
         title: "Data Platform & BI Plugins",
         description: "Plugins for data platforms and business intelligence tools");

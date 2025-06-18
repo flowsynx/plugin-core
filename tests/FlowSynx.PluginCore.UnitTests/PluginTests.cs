@@ -102,7 +102,7 @@ public class FakePlugin : IPlugin
             Namespace = PluginNamespace.Connectors,
             Authors = new List<string> { "Test" },
             CompanyName = "Test",
-            Category = PluginCategories.WebApiIntegration
+            Category = PluginCategories.WebApi
         };
     }
 
