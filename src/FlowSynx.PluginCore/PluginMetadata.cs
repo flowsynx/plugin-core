@@ -113,6 +113,11 @@ public class PluginMetadata
     public string Type => $"{CompanyName}.{Namespace}.{Name}";
 
     /// <summary>
+    /// Gets the category of the plugin.
+    /// </summary>
+    public required PluginCategory Category { get; set; }
+
+    /// <summary>
     /// Validates that an identifier is non-empty, starts with a letter,
     /// and contains only letters and digits.
     /// </summary>

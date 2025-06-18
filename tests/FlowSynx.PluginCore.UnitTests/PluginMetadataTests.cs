@@ -13,6 +13,7 @@ public class PluginMetadataTests
             Version = new PluginVersion(1, 0, 0),
             Namespace = PluginNamespace.Connectors,
             CompanyName = "Test",
+            Category = PluginCategories.WebApiIntegration
         };
 
         // Act
@@ -40,6 +41,7 @@ public class PluginMetadataTests
             ProjectUrl = "https://registry.flowsynx.io/AnalyticsPlugin/",
             Namespace = ns,
             CompanyName= "Test",
+            Category = PluginCategories.WebApiIntegration
         };
 
         // Assert
@@ -64,6 +66,7 @@ public class PluginMetadataTests
             Version = new PluginVersion(0, 1, 1),
             Namespace = PluginNamespace.Transformers,
             CompanyName = "Test",
+            Category = PluginCategories.WebApiIntegration
         };
 
         // Act
