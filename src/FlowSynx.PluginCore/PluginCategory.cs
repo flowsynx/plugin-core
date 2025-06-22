@@ -1,36 +1,133 @@
 ﻿namespace FlowSynx.PluginCore;
 
-public sealed class PluginCategory
+/// <summary>
+/// Defines the logical categorization or role of a plugin within the system.
+/// </summary>
+public enum PluginCategory
 {
     /// <summary>
-    /// Gets the unique identifier or key of the category (optional).
+    /// Plugins that offer artificial intelligence capabilities
+    /// such as computer vision, natural language processing, or reasoning engines.
     /// </summary>
-    public string Id { get; }
+    AI,
 
     /// <summary>
-    /// Gets the human-readable title of the category.
+    /// Plugins that provide or consume Application Programming Interfaces (APIs),
+    /// including REST, GraphQL, or RPC-based services.
     /// </summary>
-    public string Title { get; }
+    Api,
 
     /// <summary>
-    /// Gets the description of the category.
+    /// Plugins that handle identity and access management (IAM), SSO, OAuth,
+    /// or multi-factor authentication services.
     /// </summary>
-    public string Description { get; }
+    Authentication,
 
-    private PluginCategory(string id, string title, string description)
-    {
-        Id = id ?? throw new ArgumentNullException(nameof(id));
-        Title = title ?? throw new ArgumentNullException(nameof(title));
-        Description = description ?? throw new ArgumentNullException(nameof(description));
-    }
+    /// <summary>
+    /// Plugins that help in collecting, analyzing, and visualizing
+    /// business data to support decision-making.
+    /// </summary>
+    BusinessIntelligence,
 
-    public override bool Equals(object? obj) =>
-        obj is PluginCategory other && Id == other.Id;
+    /// <summary>
+    /// Plugins that specifically target blockchain protocols, nodes,
+    /// ledger manipulation, or tokenomics, beyond just Web3.
+    /// </summary>
+    Blockchain,
 
-    public override int GetHashCode() => Id.GetHashCode();
+    /// <summary>
+    /// Plugins that enable integration with cloud service providers
+    /// such as AWS, Azure, Google Cloud, and others.
+    /// </summary>
+    Cloud,
 
-    public override string ToString() => $"{Title} ({Id})";
+    /// <summary>
+    /// Plugins that handle messaging, chat, email, VoIP, SMS,
+    /// or other communication protocols and services.
+    /// </summary>
+    Communication,
 
-    internal static PluginCategory Create(string id, string title, string description) =>
-        new PluginCategory(id, title, description);
+    /// <summary>
+    /// Plugins for data processing, transformation, pipelines,
+    /// and data flow orchestration.
+    /// </summary>
+    Data,
+
+    /// <summary>
+    /// Plugins that provide access to or manage relational and non-relational
+    /// database systems like PostgreSQL, MySQL, MongoDB, etc.
+    /// </summary>
+    Database,
+
+    /// <summary>
+    /// Plugins that assist with infrastructure automation, CI/CD pipelines,
+    /// configuration management, and deployment tooling.
+    /// </summary>
+    DevOps,
+
+    /// <summary>
+    /// Plugins related to financial systems, transactions, accounting,
+    /// billing, and related computations.
+    /// </summary>
+    Finance,
+
+    /// <summary>
+    /// Plugins that implement or assist with machine learning workflows,
+    /// including model training, evaluation, and prediction.
+    /// </summary>
+    ML,
+
+    /// <summary>
+    /// Plugins that observe the health, performance, and uptime
+    /// of applications and infrastructure.
+    /// </summary>
+    Monitoring,
+
+    /// <summary>
+    /// Plugins that capture logs, aggregate them, parse,
+    /// and send them to external logging systems or dashboards.
+    /// </summary>
+    Logging,
+
+    /// <summary>
+    /// Plugins that support network operations, diagnostics,
+    /// connectivity, DNS, routing, firewalls, and load balancers.
+    /// </summary>
+    Networking,
+
+    /// <summary>
+    /// Plugins that support task management, project planning,
+    /// issue tracking, or general workflow automation.
+    /// </summary>
+    ProjectWorkflow,
+
+    /// <summary>
+    /// Plugins for managing company resources such as HR, inventory,
+    /// scheduling, budgeting, or operations planning.
+    /// </summary>
+    ResourcePlanning,
+
+    /// <summary>
+    /// Plugins that enhance security features such as encryption,
+    /// vulnerability scanning, firewalls, or threat detection.
+    /// </summary>
+    Security,
+
+    /// <summary>
+    /// Plugins for file storage, blob storage, object storage,
+    /// or distributed storage systems.
+    /// </summary>
+    Storage,
+
+    /// <summary>
+    /// Plugins that run or support automated and manual tests,
+    /// including unit, integration, and end-to-end testing tools.
+    /// </summary>
+    Testing,
+
+    /// <summary>
+    /// Plugins that build and serve websites or web applications,
+    /// including frontend and backend frameworks.
+    /// </summary>
+    Web
 }

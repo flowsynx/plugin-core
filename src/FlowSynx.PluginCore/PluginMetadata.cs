@@ -101,21 +101,16 @@ public class PluginMetadata
     public string? ReadMe { get; set; }
 
     /// <summary>
-    /// Gets or sets the namespace the plugin belongs to.
+    /// Gets or sets the category the plugin belongs to.
     /// Used as the middle component in the plugin's type identifier.
     /// </summary>
-    public required PluginNamespace Namespace { get; set; }
+    public required PluginCategory Category { get; set; }
 
     /// <summary>
     /// Gets the full plugin type name in the format: CompanyName.Namespace.PluginName.
     /// This is used for plugin resolution, identification, or registration.
     /// </summary>
-    public string Type => $"{CompanyName}.{Namespace}.{Name}";
-
-    /// <summary>
-    /// Gets the category of the plugin.
-    /// </summary>
-    public required PluginCategory Category { get; set; }
+    public string Type => $"{CompanyName}.{Category.ToString()}.{Name}";
 
     /// <summary>
     /// Validates that an identifier is non-empty, starts with a letter,

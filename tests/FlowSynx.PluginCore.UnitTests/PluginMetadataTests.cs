@@ -11,16 +11,15 @@ public class PluginMetadataTests
             Id = Guid.NewGuid(),
             Name = "MyPlugin",
             Version = new PluginVersion(1, 0, 0),
-            Namespace = PluginNamespace.Connectors,
+            Category = PluginCategory.Api,
             CompanyName = "Test",
-            Category = PluginCategories.WebApi
         };
 
         // Act
         var type = metadata.Type;
 
         // Assert
-        Assert.Equal("Test.Connectors.MyPlugin", type);
+        Assert.Equal("Test.Api.MyPlugin", type);
     }
 
     [Fact]
@@ -29,7 +28,7 @@ public class PluginMetadataTests
         // Arrange
         var id = Guid.NewGuid();
         var version = new PluginVersion(1, 2, 3);
-        var ns = PluginNamespace.Connectors;
+        var category = PluginCategory.Api;
 
         var metadata = new PluginMetadata
         {
@@ -39,9 +38,8 @@ public class PluginMetadataTests
             Description = "Performs analytics",
             Authors = new List<string> { "DevTeam" },
             ProjectUrl = "https://registry.flowsynx.io/AnalyticsPlugin/",
-            Namespace = ns,
-            CompanyName= "Test",
-            Category = PluginCategories.WebApi
+            Category = category,
+            CompanyName= "Test"
         };
 
         // Assert
@@ -51,8 +49,8 @@ public class PluginMetadataTests
         Assert.Equal("Performs analytics", metadata.Description);
         Assert.Equal("DevTeam", metadata.Authors[0]);
         Assert.Equal("https://registry.flowsynx.io/AnalyticsPlugin/", metadata.ProjectUrl);
-        Assert.Equal(ns, metadata.Namespace);
-        Assert.Equal("Test.Connectors.AnalyticsPlugin", metadata.Type);
+        Assert.Equal(category, metadata.Category);
+        Assert.Equal("Test.Api.AnalyticsPlugin", metadata.Type);
     }
 
     [Fact]
@@ -64,15 +62,14 @@ public class PluginMetadataTests
             Id = Guid.NewGuid(),
             Name = "Processor",
             Version = new PluginVersion(0, 1, 1),
-            Namespace = PluginNamespace.Transformers,
+            Category = PluginCategory.AI,
             CompanyName = "Test",
-            Category = PluginCategories.WebApi
         };
 
         // Act
         var type = metadata.Type;
 
         // Assert
-        Assert.Equal("Test.Transformers.Processor", type);
+        Assert.Equal("Test.AI.Processor", type);
     }
 }

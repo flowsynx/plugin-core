@@ -99,10 +99,9 @@ public class FakePlugin : IPlugin
             Id = Guid.NewGuid(),
             Name = "FakePlugin",
             Version =  new PluginVersion(1, 0, 0),
-            Namespace = PluginNamespace.Connectors,
+            Category = PluginCategory.Api,
             Authors = new List<string> { "Test" },
-            CompanyName = "Test",
-            Category = PluginCategories.WebApi
+            CompanyName = "Test"
         };
     }
 
