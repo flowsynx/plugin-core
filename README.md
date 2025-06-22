@@ -101,15 +101,33 @@ logger.LogInfo("Started processing...");
 logger.LogError("An error occurred.");
 ```
 
-## 🧭 Namespacing Support
+## 🧭 Categories Support
 To organize plugins by type or domain, use the `PluginNamespace` enum:
 
 ```csharp
-public enum PluginNamespace
+public enum PluginCategory
 {
-    Logics,
-    Connectors,
-    Transformers
+    AI,
+    Api,
+    Authentication,
+    BusinessIntelligence,
+    Blockchain,
+    Cloud,
+    Communication,
+    Data,
+    Database,
+    DevOps,
+    Finance,
+    ML,
+    Monitoring,
+    Logging,
+    Networking,
+    ProjectWorkflow,
+    ResourcePlanning,
+    Security,
+    Storage,
+    Testing,
+    Web
 }
 ```
 
@@ -123,7 +141,7 @@ public class SampleGreetingPlugin : IPlugin
         Name = "MyPlugin",
         Description = "This is a test plugin.",
         Version = new PluginVersion(1, 0, 0),
-        Namespace = PluginNamespace.Connectors,
+        Namespace = PluginNamespace.Api,
         CompanyName = "FlowSynx",
         Authors = new List<string> { "FlowSynx" },
         Copyright = "© FlowSynx. All rights reserved.",
