@@ -113,6 +113,16 @@ public class PluginMetadata
     public string Type => $"{CompanyName}.{Category.ToString()}.{Name}";
 
     /// <summary>
+    /// The minimum version of the FlowSynx engine this plugin is compatible with.
+    /// </summary>
+    public Version? MinimumFlowSynxVersion { get; set; }
+
+    /// <summary>
+    /// The maximum version of the FlowSynx engine this plugin is compatible with.
+    /// </summary>
+    public Version? MaximumFlowSynxVersion { get; set; }
+
+    /// <summary>
     /// Validates that an identifier is non-empty, starts with a letter,
     /// and contains only letters and digits.
     /// </summary>
