@@ -13,6 +13,7 @@ public class PluginMetadataTests
             Version = new PluginVersion(1, 0, 0),
             Category = PluginCategory.Api,
             CompanyName = "Test",
+            MinimumFlowSynxVersion = new Version(1, 0, 0)
         };
 
         // Act
@@ -39,7 +40,8 @@ public class PluginMetadataTests
             Authors = new List<string> { "DevTeam" },
             ProjectUrl = "https://registry.flowsynx.io/AnalyticsPlugin/",
             Category = category,
-            CompanyName= "Test"
+            CompanyName= "Test",
+            MinimumFlowSynxVersion = new Version(1, 0, 0)
         };
 
         // Assert
@@ -64,6 +66,7 @@ public class PluginMetadataTests
             Version = new PluginVersion(0, 1, 1),
             Category = PluginCategory.AI,
             CompanyName = "Test",
+            MinimumFlowSynxVersion = new Version(1, 0, 0)
         };
 
         // Act

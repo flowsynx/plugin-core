@@ -115,12 +115,17 @@ public class PluginMetadata
     /// <summary>
     /// The minimum version of the FlowSynx engine this plugin is compatible with.
     /// </summary>
-    public Version? MinimumFlowSynxVersion { get; set; }
+    public required Version MinimumFlowSynxVersion { get; set; }
 
     /// <summary>
-    /// The maximum version of the FlowSynx engine this plugin is compatible with.
+    /// Gets or sets the FlowSynx version that this plugin was developed and tested against.
     /// </summary>
-    public Version? MaximumFlowSynxVersion { get; set; }
+    /// <remarks>
+    /// This property indicates the version of the FlowSynx host system that the plugin is known to be compatible with.
+    /// It is used for forward compatibility checks, allowing the host to warn if the plugin has not been tested
+    /// against newer host versions.
+    /// </remarks>
+    public Version? TargetFlowSynxVersion { get; set; }
 
     /// <summary>
     /// Validates that an identifier is non-empty, starts with a letter,

@@ -101,7 +101,8 @@ public class FakePlugin : IPlugin
             Version =  new PluginVersion(1, 0, 0),
             Category = PluginCategory.Api,
             Authors = new List<string> { "Test" },
-            CompanyName = "Test"
+            CompanyName = "Test",
+            MinimumFlowSynxVersion = new Version(1, 0, 0)
         };
     }
 
