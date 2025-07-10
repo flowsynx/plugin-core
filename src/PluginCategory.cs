@@ -129,5 +129,12 @@ public enum PluginCategory
     /// Plugins that build and serve websites or web applications,
     /// including frontend and backend frameworks.
     /// </summary>
-    Web
+    Web,
+
+    /// <summary>
+    /// Plugins that provide control-flow constructs for workflows,  
+    /// such as conditional branching, loops, parallel execution, and event-driven triggers.  
+    /// These plugins are used to control the execution logic of workflow tasks.  
+    /// </summary>
+    ControlFlow
 }
