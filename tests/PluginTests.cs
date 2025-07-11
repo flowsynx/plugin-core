@@ -27,7 +27,7 @@ public class PluginTests
         // Assert
         Assert.NotNull(plugin.Metadata);
         Assert.Equal("FakePlugin", plugin.Metadata.Name);
-        Assert.Equal(new PluginVersion(1, 0, 0), plugin.Metadata.Version);
+        Assert.Equal(new Version(1, 0, 0), plugin.Metadata.Version);
         Assert.Equal("Test", plugin.Metadata.Authors[0]);
     }
 
@@ -98,7 +98,7 @@ public class FakePlugin : IPlugin
         {
             Id = Guid.NewGuid(),
             Name = "FakePlugin",
-            Version =  new PluginVersion(1, 0, 0),
+            Version =  new Version(1, 0, 0),
             Category = PluginCategory.Api,
             Authors = new List<string> { "Test" },
             CompanyName = "Test",

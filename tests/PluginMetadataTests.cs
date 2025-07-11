@@ -10,7 +10,7 @@ public class PluginMetadataTests
         {
             Id = Guid.NewGuid(),
             Name = "MyPlugin",
-            Version = new PluginVersion(1, 0, 0),
+            Version = new Version(1, 0, 0),
             Category = PluginCategory.Api,
             CompanyName = "Test",
             MinimumFlowSynxVersion = new Version(1, 0, 0)
@@ -28,7 +28,7 @@ public class PluginMetadataTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var version = new PluginVersion(1, 2, 3);
+        var version = new Version(1, 2, 3);
         var category = PluginCategory.Api;
 
         var metadata = new PluginMetadata
@@ -63,7 +63,7 @@ public class PluginMetadataTests
         {
             Id = Guid.NewGuid(),
             Name = "Processor",
-            Version = new PluginVersion(0, 1, 1),
+            Version = new Version(0, 1, 1),
             Category = PluginCategory.AI,
             CompanyName = "Test",
             MinimumFlowSynxVersion = new Version(1, 0, 0)

@@ -36,7 +36,7 @@ public class PluginMetadata
     /// <summary>
     /// Gets or sets the version of the plugin.
     /// </summary>
-    public required PluginVersion Version { get; set; }
+    public required Version Version { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the company that created the plugin.
