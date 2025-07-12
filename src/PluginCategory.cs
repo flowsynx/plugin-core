@@ -132,9 +132,8 @@ public enum PluginCategory
     Web,
 
     /// <summary>
-    /// Plugins that provide control-flow constructs for workflows,  
-    /// such as conditional branching, loops, parallel execution, and event-driven triggers.  
-    /// These plugins are used to control the execution logic of workflow tasks.  
+    /// Plugins that execute external processes, scripts, or commands and capture their output,
+    /// enabling integration of external tasks within workflows.
     /// </summary>
-    ControlFlow
+    Execution
 }
