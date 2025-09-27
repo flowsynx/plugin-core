@@ -120,6 +120,12 @@ public enum PluginCategory
     Storage,
 
     /// <summary>
+    /// Plugins that handle compression, decompression,
+    /// and archive management (ZIP, TAR, GZip, 7z, etc.).
+    /// </summary>
+    Compression,
+
+    /// <summary>
     /// Plugins that run or support automated and manual tests,
     /// including unit, integration, and end-to-end testing tools.
     /// </summary>
@@ -135,5 +141,16 @@ public enum PluginCategory
     /// Plugins that execute external processes, scripts, or commands and capture their output,
     /// enabling integration of external tasks within workflows.
     /// </summary>
-    Execution
+    Execution,
+
+    /// <summary>
+    /// Plugins that interact with IoT devices, sensors, embedded hardware,
+    /// or external peripherals.
+    /// </summary>
+    IoT,
+
+    /// <summary>
+    /// Plugins for media processing, such as images, audio, or video manipulation.
+    /// </summary>
+    Media,
 }
