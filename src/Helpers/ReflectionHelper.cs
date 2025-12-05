@@ -6,21 +6,8 @@ public static class ReflectionHelper
 {
     public static bool IsCalledViaReflection()
     {
-        var stack = new StackTrace();
-        var frames = stack.GetFrames();
-
-        if (frames == null)
-            return false;
-
-        foreach (var frame in frames)
-        {
-            var callingMethod = frame.GetMethod();
-            if (callingMethod == null) continue;
-
-            if (callingMethod.DeclaringType?.Namespace?.StartsWith("System.Reflection") == true)
-                return true;
-        }
-
-        return false;
+        // Check only the immediate caller to avoid xUnit/testhost infrastructure
+        var callingMethod = new StackFrame(1).GetMethod();
+        return callingMethod?.DeclaringType?.Namespace?.StartsWith("System.Reflection") == true;
     }
 }

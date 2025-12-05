@@ -12,7 +12,7 @@ public class PluginTests
         var loggerMock = new Mock<IPluginLogger>();
 
         // Act
-        await plugin.Initialize(loggerMock.Object);
+        await plugin.InitializeAsync(loggerMock.Object, null);
 
         // Assert
         loggerMock.Verify(l => l.Log(PluginLoggerLevel.Information, "Initializing SamplePlugin"), Times.Once);
@@ -32,31 +32,6 @@ public class PluginTests
     }
 
     [Fact]
-    public void Specifications_CanBeSetAndRetrieved()
-    {
-        // Arrange
-        var plugin = new FakePlugin();
-        var specs = new FakeSpecifications { ExampleSetting = "TestValue" };
-
-        // Act
-        plugin.Specifications = specs;
-
-        // Assert
-        Assert.Equal(specs, plugin.Specifications);
-        Assert.Equal("TestValue", ((FakeSpecifications)plugin.Specifications!).ExampleSetting);
-    }
-
-    [Fact]
-    public void SpecificationsType_IsCorrect()
-    {
-        // Arrange
-        var plugin = new FakePlugin();
-
-        // Assert
-        Assert.Equal(typeof(FakeSpecifications), plugin.SpecificationsType);
-    }
-
-    [Fact]
     public async Task ExecuteAsync_ReturnsExpectedResult()
     {
         // Arrange
@@ -64,7 +39,7 @@ public class PluginTests
         var parameters = new PluginParameters();
 
         // Act
-        var result = await plugin.ExecuteAsync(parameters, CancellationToken.None);
+        var result = await plugin.ExecuteAsync("TestOperation", parameters, CancellationToken.None);
 
         // Assert
         Assert.Equal("Executed", result);
@@ -80,17 +55,15 @@ public class PluginTests
 
         // Act & Assert
         await Assert.ThrowsAsync<TaskCanceledException>(() =>
-            plugin.ExecuteAsync(new PluginParameters(), cts.Token));
+            plugin.ExecuteAsync("TestOperation", new PluginParameters(), cts.Token));
     }
 }
-
 
 public class FakePlugin : IPlugin
 {
     public PluginMetadata Metadata { get; private set; }
-    public PluginSpecifications? Specifications { get; set; }
-    public Type SpecificationsType => typeof(FakeSpecifications);
-    public IReadOnlyCollection<string> SupportedOperations => new List<string>();
+    public IReadOnlyCollection<IPluginOperation> SupportedOperations => new List<IPluginOperation>();
+    public IPluginSpecifications Specifications => new FakeSpecifications();
 
     public FakePlugin()
     {
@@ -106,13 +79,16 @@ public class FakePlugin : IPlugin
         };
     }
 
-    public Task Initialize(IPluginLogger logger)
+    public Task InitializeAsync(IPluginLogger logger, IDictionary<string, object?>? specifications)
     {
         logger.Log(PluginLoggerLevel.Information, "Initializing SamplePlugin");
         return Task.CompletedTask;
     }
 
-    public Task<object?> ExecuteAsync(PluginParameters parameters, CancellationToken cancellationToken)
+    public Task<object?> ExecuteAsync(
+        string operationName, 
+        PluginParameters parameters, 
+        CancellationToken cancellationToken)
     {
         if (cancellationToken.IsCancellationRequested)
             return Task.FromCanceled<object?>(cancellationToken);
@@ -123,5 +99,10 @@ public class FakePlugin : IPlugin
 
 public class FakeSpecifications : PluginSpecifications
 {
-    public string? ExampleSetting { get; set; }
+    public string ExampleSetting { get; set; } = string.Empty;
+
+    public override void Validate()
+    {
+        if (string.IsNullOrWhiteSpace(ExampleSetting)) throw new Exception("ExampleSetting is required.");
+    }
 }

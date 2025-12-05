@@ -6,7 +6,10 @@ public class PluginParametersTests
     public void Constructor_Default_CreatesEmptyDictionary()
     {
         // Arrange & Act
-        var parameters = new PluginParameters();
+        var parameters = new PluginParameters()
+        {
+
+        };
 
         // Assert
         Assert.Empty(parameters);
@@ -18,6 +21,7 @@ public class PluginParametersTests
         // Arrange
         var source = new Dictionary<string, object?>
         {
+            { "OperationName", "TestOperation" },
             { "Key1", 123 },
             { "Key2", "value" }
         };

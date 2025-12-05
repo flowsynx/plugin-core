@@ -9,11 +9,20 @@ public class PluginParameters : Dictionary<string, object?>, ICloneable
     /// <summary>
     /// Initializes a new instance of the <see cref="PluginParameters"/> class
     /// with the contents of an existing dictionary. Keys are compared case-insensitively.
+    /// Filters out reserved keys like `OperationName`.
     /// </summary>
     /// <param name="dictionary">The dictionary whose elements are copied to the new instance.</param>
     public PluginParameters(IDictionary<string, object?> dictionary)
-        : base(dictionary, StringComparer.OrdinalIgnoreCase)
+        : base(StringComparer.OrdinalIgnoreCase)
     {
+        // Copy only non-reserved keys
+        foreach (var kvp in dictionary)
+        {
+            if (!string.Equals(kvp.Key, "OperationName", StringComparison.OrdinalIgnoreCase))
+            {
+                this[kvp.Key] = kvp.Value;
+            }
+        }
     }
 
     /// <summary>
@@ -32,7 +41,11 @@ public class PluginParameters : Dictionary<string, object?>, ICloneable
     /// <returns>A shallow copy of the current instance.</returns>
     public object Clone()
     {
-        var clone = (PluginParameters)MemberwiseClone();
+        var clone = new PluginParameters();
+        foreach (var kvp in this)
+        {
+            clone[kvp.Key] = kvp.Value; // shallow copy of values
+        }
         return clone;
     }
 }

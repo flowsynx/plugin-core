@@ -1,66 +1,143 @@
-﻿namespace FlowSynx.PluginCore.UnitTests;
+﻿using System;
+using System.Collections.Generic;
+using FlowSynx.PluginCore;
+using Xunit;
 
-public class PluginSpecificationsTests
+namespace FlowSynx.PluginCore.UnitTests
 {
-    [Fact]
-    public void Constructor_ShouldInitializeEmptyDictionary()
+    // Concrete implementation for testing PluginSpecifications
+    public class TestSpecifications : PluginSpecifications
     {
-        // Arrange & Act
-        var specs = new PluginSpecifications();
+        public int IntProp { get; set; }
+        public string? StringProp { get; set; }
+        public double DoubleProp { get; set; }
+        public DateTime DateProp { get; set; }
+        public bool BoolProp { get; set; }
 
-        // Assert
-        Assert.Empty(specs);
+        // Read-only property should not be set by FromDictionary
+        public string ReadOnlyProp => "readonly";
+
+        public override void Validate()
+        {
+            if (IntProp < 0)
+                throw new ArgumentOutOfRangeException(nameof(IntProp));
+        }
     }
 
-    [Fact]
-    public void Constructor_WithDictionary_ShouldCopyValues()
+    public class PluginSpecificationsTests
     {
-        // Arrange
-        var input = new Dictionary<string, object?>
+        [Fact]
+        public void FromDictionary_AssignsMatchingTypes()
+        {
+            var spec = new TestSpecifications();
+            var dict = new Dictionary<string, object?>
             {
-                { "Key1", "Value1" },
-                { "Key2", 42 }
+                { nameof(TestSpecifications.IntProp), 42 },
+                { nameof(TestSpecifications.StringProp), "hello" },
+                { nameof(TestSpecifications.DoubleProp), 3.14 },
+                { nameof(TestSpecifications.BoolProp), true },
             };
 
-        // Act
-        var specs = new PluginSpecifications(input);
+            spec.FromDictionary(dict);
 
-        // Assert
-        Assert.Equal(2, specs.Count);
-        Assert.Equal("Value1", specs["Key1"]);
-        Assert.Equal(42, specs["Key2"]);
-    }
+            Assert.Equal(42, spec.IntProp);
+            Assert.Equal("hello", spec.StringProp);
+            Assert.Equal(3.14, spec.DoubleProp);
+            Assert.True(spec.BoolProp);
+        }
 
-    [Fact]
-    public void Dictionary_ShouldBeCaseInsensitive()
-    {
-        // Arrange
-        var specs = new PluginSpecifications
+        [Fact]
+        public void FromDictionary_ConvertsTypes_WhenAssignableFails()
         {
-            ["TestKey"] = "value"
-        };
+            var spec = new TestSpecifications();
+            var now = DateTime.UtcNow;
+            var dict = new Dictionary<string, object?>
+            {
+                { nameof(TestSpecifications.IntProp), "123" },
+                { nameof(TestSpecifications.DoubleProp), "2.5" },
+                { nameof(TestSpecifications.BoolProp), "true" },
+                { nameof(TestSpecifications.DateProp), now.ToString("O") },
+            };
 
-        // Act & Assert
-        Assert.True(specs.ContainsKey("testkey"));
-        Assert.True(specs.ContainsKey("TESTKEY"));
-        Assert.Equal("value", specs["testKEY"]);
-    }
+            spec.FromDictionary(dict);
 
-    [Fact]
-    public void Clone_ShouldCreateShallowCopy()
-    {
-        // Arrange
-        var specs = new PluginSpecifications
+            Assert.Equal(123, spec.IntProp);
+            Assert.Equal(2.5, spec.DoubleProp);
+            Assert.True(spec.BoolProp);
+            Assert.Equal(now, spec.DateProp);
+        }
+
+        [Fact]
+        public void FromDictionary_IgnoresUnknownKeys()
         {
-            ["Key"] = new List<string> { "A", "B" }
-        };
+            var spec = new TestSpecifications();
+            spec.IntProp = 1;
 
-        // Act
-        var clone = (PluginSpecifications)specs.Clone();
+            var dict = new Dictionary<string, object?>
+            {
+                { "DoesNotExist", 999 },
+            };
 
-        // Assert
-        Assert.NotSame(specs, clone); // Different reference
-        Assert.Equal(specs["Key"], clone["Key"]); // Same value reference (shallow copy)
-        Assert.Same(specs["Key"], clone["Key"]);
+            spec.FromDictionary(dict);
+
+            Assert.Equal(1, spec.IntProp);
+        }
+
+        [Fact]
+        public void FromDictionary_DoesNotSetReadOnlyProperties()
+        {
+            var spec = new TestSpecifications();
+            var original = spec.ReadOnlyProp;
+
+            var dict = new Dictionary<string, object?>
+            {
+                { nameof(TestSpecifications.ReadOnlyProp), "changed" },
+            };
+
+            spec.FromDictionary(dict);
+
+            Assert.Equal(original, spec.ReadOnlyProp);
+        }
+
+        [Fact]
+        public void FromDictionary_NullValuesAreIgnored()
+        {
+            var spec = new TestSpecifications { StringProp = "initial" };
+
+            var dict = new Dictionary<string, object?>
+            {
+                { nameof(TestSpecifications.StringProp), null },
+            };
+
+            spec.FromDictionary(dict);
+
+            Assert.Equal("initial", spec.StringProp);
+        }
+
+        [Fact]
+        public void FromDictionary_InvalidConversion_Throws()
+        {
+            var spec = new TestSpecifications();
+            var dict = new Dictionary<string, object?>
+            {
+                { nameof(TestSpecifications.IntProp), "not-an-int" },
+            };
+
+            Assert.ThrowsAny<Exception>(() => spec.FromDictionary(dict));
+        }
+
+        [Fact]
+        public void Validate_ThrowsWhenInvalid()
+        {
+            var spec = new TestSpecifications { IntProp = -1 };
+            Assert.Throws<ArgumentOutOfRangeException>(() => spec.Validate());
+        }
+
+        [Fact]
+        public void Validate_SucceedsWhenValid()
+        {
+            var spec = new TestSpecifications { IntProp = 0 };
+            spec.Validate();
+        }
     }
 }
